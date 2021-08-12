@@ -1,11 +1,16 @@
 package entity
 
 func ToEmployee(employeeDTO EmployeeDTO) Employee {
-	return Employee{Name: employeeDTO.Name}
+	employeeDTOO := EmployeeDTO{Id: employeeDTO.Id, Name: employeeDTO.Name}
+	employee := Employee(employeeDTOO)
+	return employee
 }
 
 func ToEmployeeDTO(employee Employee) EmployeeDTO {
-	return EmployeeDTO{Id: employee.Id, Name: employee.Name}
+	employeee := Employee{Id: employee.Id, Name: employee.Name}
+	employeeDTO := EmployeeDTO(employeee)
+
+	return employeeDTO
 }
 
 func ToEmployeeDTOs(employees []Employee) []EmployeeDTO {

@@ -31,8 +31,8 @@ func (stmt *EmployeeRepository) Save(employee Employee) (Employee, error) {
 	return employees, nil
 }
 
-func (p *EmployeeRepository) Delete(employee Employee) error {
-	p.DB.Delete(&employee)
+func (e *EmployeeRepository) Delete(employee Employee) error {
+	e.DB.Delete(&employee)
 
 	return nil
 }

@@ -29,12 +29,12 @@ func (e *EmployeeAPI) FindAll(c *gin.Context) {
 }
 func (e *EmployeeAPI) FindByID(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	product, err := e.EmployeeService.FindByID(int(id))
+	employees, err := e.EmployeeService.FindByID(int(id))
 	if err != nil {
 		log.Printf("EmployeeService.FindByID")
 	}
 
-	c.JSON(http.StatusOK, gin.H{"product": ToEmployeeDTO(product)})
+	c.JSON(http.StatusOK, gin.H{"employees": ToEmployeeDTO(employees)})
 }
 func (e *EmployeeAPI) Create(c *gin.Context) {
 	var employeeDTO EmployeeDTO
@@ -50,7 +50,7 @@ func (e *EmployeeAPI) Create(c *gin.Context) {
 		log.Fatal(err)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"employee": ToEmployeeDTO(createdEmployee)})
+	c.JSON(http.StatusOK, gin.H{"employees": ToEmployeeDTO(createdEmployee)})
 }
 
 func (e *EmployeeAPI) Update(c *gin.Context) {
@@ -81,16 +81,16 @@ func (e *EmployeeAPI) Update(c *gin.Context) {
 
 func (e *EmployeeAPI) Delete(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	product, err := e.EmployeeService.FindByID(int(id))
+	employee, err := e.EmployeeService.FindByID(int(id))
 	if err != nil {
 		log.Fatal(err)
 	}
-	if product == (Employee{}) {
+	if employee == (Employee{}) {
 		c.Status(http.StatusBadRequest)
 		return
 	}
 
-	e.EmployeeService.Delete(product)
+	e.EmployeeService.Delete(employee)
 
 	c.Status(http.StatusOK)
 }

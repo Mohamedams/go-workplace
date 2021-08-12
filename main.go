@@ -25,18 +25,30 @@ package main
 // }
 
 import (
+	"fmt"
 	"log"
-	"os"
+
+	//"os"
+
+	"bin/Documents/go-workplace/entity"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/lib/pq"
+)
 
-	"bin/Documents/go-workplace/entity"
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "Abouras"
+	dbname   = "postgres"
 )
 
 func initDB() *gorm.DB {
-	db, err := gorm.Open("mysql", os.Getenv("DB_URL"))
+	psqlconn := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	db, err := gorm.Open("postgres", psqlconn)
 	if err != nil {
 		panic(err)
 	}
@@ -64,7 +76,7 @@ func main() {
 	r.GET("/employees/:id", employeeAPI.FindByID)
 	r.POST("/employees", employeeAPI.Create)
 	r.PUT("/employees/:id", employeeAPI.Update)
-	r.DELETE("/employees/:id", employeeAPI.Delete)
+	r.DELETE("/employees/delete/:id", employeeAPI.Delete)
 
 	error := r.Run()
 	if error != nil {
